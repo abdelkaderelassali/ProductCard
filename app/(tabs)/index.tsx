@@ -1,98 +1,102 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
-
-export default function HomeScreen() {
+export default function App() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <View style={styles.screenContainer}>
+      
+      {/* 1. The Card Container */}
+      {/* Requirement: White background, rounded corners, shadow [cite: 431] */}
+      <View style={styles.card}>
+        
+        {/* 2. Image */}
+        {/* Requirement: Image at the top [cite: 432] */}
+        <Image 
+          source={{ uri: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }} 
+          style={styles.image} 
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        {/* 3. Title & Price */}
+        {/* Requirement: Row direction, space-between [cite: 433] */}
+        <View style={styles.row}>
+          <Text style={styles.title}>Baskets Vintage</Text>
+          <Text style={styles.price}>89,99 €</Text>
+        </View>
+
+        {/* 4. Description */}
+        {/* Requirement: Short description [cite: 435] */}
+        <Text style={styles.description}>
+          Description, Vintage dirvest com pronge reiveus
+        </Text>
+
+        {/* 5. Button */}
+        {/* Requirement: Centered at bottom [cite: 436] */}
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Acheter maintenant</Text>
+        </TouchableOpacity>
+
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  screenContainer: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center', // Centers the card vertically
+    alignItems: 'center',     // Centers the card horizontally
+    padding: 20,
+  },
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 15,
+    padding: 15,
+    width: '100%',
+    maxWidth: 350,
+    // Shadow logic (No 'box-shadow' like CSS, use these instead)
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5, // Required for shadow on Android
+  },
+  image: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  row: {
+    flexDirection: 'row',       // Switches axis to Horizontal [cite: 212]
+    justifyContent: 'space-between', // Pushes items to edges [cite: 230]
     alignItems: 'center',
-    gap: 8,
+    marginBottom: 10,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  price: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#d32f2f',
+  },
+  description: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#2e7d32',
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center', // Standard align (no position: absolute needed) [cite: 437]
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
